@@ -10,14 +10,14 @@ enum Scenes {
     MAIN_MENU = "MainMenu",
     CARD_GAME = "CardGame",
     UI_LAYOUT = "UILayout",
-    Particles = "Particles",
+    PARTICLES = "Particles",
 }
 
 const SCENES: Record<Scenes, typeof Scene> = {
     [Scenes.MAIN_MENU]: MainMenuScene,
     [Scenes.CARD_GAME]: CardGameScene,
     [Scenes.UI_LAYOUT]: UILayoutScene,
-    [Scenes.Particles]: ParticlesScene,
+    [Scenes.PARTICLES]: ParticlesScene,
 };
 
 export default class SceneManager {
@@ -35,6 +35,7 @@ export default class SceneManager {
         this._scene?.destroy();
 
         this._scene = this.createScene(name as Scenes);
+        this._scene.init();
         this._scene.attachTo(this._container);
     }
 

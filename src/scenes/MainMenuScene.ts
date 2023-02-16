@@ -5,10 +5,10 @@ import VerticalLayout from "../ui/layouts/VerticalLayout";
 import LayoutGroup from "../ui/LayoutGroup";
 
 export default class MainMenuScene extends Scene {
-    private _buttons: Button[] = [];
     private _layoutGroup!: LayoutGroup;
+    private _buttons: Button[] = [];
 
-    protected override init() {
+    public override init() {
         const layout = new VerticalLayout();
         layout.gap = 10;
 
@@ -16,7 +16,7 @@ export default class MainMenuScene extends Scene {
 
         this.addButton(SceneManager.Scenes.CARD_GAME);
         this.addButton(SceneManager.Scenes.UI_LAYOUT);
-        this.addButton(SceneManager.Scenes.Particles);
+        this.addButton(SceneManager.Scenes.PARTICLES);
 
         this.layout();
     }
@@ -31,8 +31,15 @@ export default class MainMenuScene extends Scene {
         this._layoutGroup.y = (this._height - this._layoutGroup.height) >> 1;
     }
 
+    protected createButton(name: string) {
+        return new Button(name)
+            .once(Button.Events.CLICK, () => {
+                this.game.sceneManager.add(name);
+            });
+    }
+
     private addButton(name: string) {
-        return this._layoutGroup.addChild(this.createButton(name));
+        this._buttons.push(this._layoutGroup.addChild(this.createButton(name)));
     }
 
 }

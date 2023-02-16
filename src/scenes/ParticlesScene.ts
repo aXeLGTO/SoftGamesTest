@@ -2,14 +2,19 @@ import SceneManager from "../managers/SceneManager";
 import Scene from "./Scene";
 import { Emitter } from "@pixi/particle-emitter";
 import { Assets, Container } from "pixi.js";
+import Button from "../ui/Button";
 
 export default class ParticlesScene extends Scene {
     private _emitter!: Emitter;
     private _partilcesContainer!: Container;
     private _elapsed = 0.0;
+    private homeButton!: Button;
 
-    protected override init() {
-        this._container.addChild(this.createButton(SceneManager.Scenes.MAIN_MENU));
+    public override init() {
+        this.homeButton = this._container.addChild(new Button("Home")
+            .once(Button.Events.CLICK, () => {
+                this.game.sceneManager.add(SceneManager.Scenes.MAIN_MENU);
+            }));
 
         this._partilcesContainer = this._container.addChild(new Container());
         this._partilcesContainer.y = this._height - 20;
@@ -19,6 +24,10 @@ export default class ParticlesScene extends Scene {
             Assets.get("emitter")
         );
         this._emitter.emit = true;
+    }
+
+    protected override dispose(): void {
+        this.homeButton.off(Button.Events.CLICK);
     }
 
     public override update(delta: number) {
