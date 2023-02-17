@@ -2,6 +2,7 @@ import SceneManager from "../managers/SceneManager";
 import { randomInt } from "../utils/math";
 import Scene from "./Scene";
 import Card from "../entities/Card";
+import HomeButton from "../ui/HomeButton";
 import Button from "../ui/Button";
 import { Container } from "pixi.js";
 import { Group } from "tweedle.js";
@@ -15,7 +16,7 @@ function randomValue() {
     return `${i < 10 ? `0${i}` : i}`;
 }
 
-const OFFSET = 10;
+const OFFSET = 5;
 const CARD_NUM = 144;
 
 export default class CardGameScene extends Scene {
@@ -27,16 +28,18 @@ export default class CardGameScene extends Scene {
 
     private timerId = -1;
 
-    private homeButton!: Button;
+    private homeButton!: HomeButton;
 
     public override init() {
-        this.homeButton = this._container.addChild(new Button("Home")
+        this.homeButton = this._container.addChild(new HomeButton()
             .once(Button.Events.CLICK, () => {
                 this.game.sceneManager.add(SceneManager.Scenes.MAIN_MENU);
             }));
 
-        this._stackHolder1 = this._container.addChild(new Container());
-        this._stackHolder2 = this._container.addChild(new Container());
+        const deck = this._container.addChild(new Container());
+        deck.y = this.homeButton.height + 10;
+        this._stackHolder1 = deck.addChild(new Container());
+        this._stackHolder2 = deck.addChild(new Container());
 
         for (let i = 0; i < CARD_NUM; ++i) {
             const card = this.createRandomCard();

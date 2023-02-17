@@ -26,9 +26,22 @@ export default class SceneManager {
     private _scene!: Scene;
     private _container: Container;
 
-    constructor(private readonly game: Game) {
+    private _width: number;
+    private _height: number;
+
+    constructor(private readonly game: Game,
+                width: number, height: number) {
+        this._width = width;
+        this._height = height;
+
         this._container = new Container();
         this.game.app.stage.addChild(this._container);
+    }
+
+    public resize(w: number, h: number) {
+        this._width = w;
+        this._height = h;
+        this._scene?.resize(w, h);
     }
 
     public add(name: Scenes | string) {
@@ -44,6 +57,6 @@ export default class SceneManager {
     }
 
     private createScene(name: Scenes) {
-        return new SCENES[name](this.game);
+        return new SCENES[name](this.game, this._width, this._height);
     }
 }

@@ -5,6 +5,7 @@ import { Sprite, TextStyle, Text } from "pixi.js";
 import SceneManager from "../managers/SceneManager";
 import { random, randomInt } from "../utils/math";
 import Button from "../ui/Button";
+import HomeButton from "../ui/HomeButton";
 
 const SPRITE_NAMES = ["star", "heart"];
 
@@ -13,10 +14,10 @@ const getRandomName = () => SPRITE_NAMES[randomInt(0, SPRITE_NAMES.length - 1)];
 export default class UILayoutScene extends Scene {
     private _layoutGroup!: LayoutGroup;
     private timerId = -1;
-    private homeButton!: Button;
+    private homeButton!: HomeButton;
 
     public override init() {
-        this.homeButton = this._container.addChild(new Button("Home")
+        this.homeButton = this._container.addChild(new HomeButton()
             .once(Button.Events.CLICK, () => {
                 this.game.sceneManager.add(SceneManager.Scenes.MAIN_MENU);
             }));

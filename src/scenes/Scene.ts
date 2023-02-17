@@ -7,12 +7,20 @@ export default class Scene {
     protected _width;
     protected _height;
 
-    constructor(protected readonly game: Game) {
-        this._width = this.game.app.screen.width;
-        this._height = this.game.app.screen.height;
+    constructor(protected readonly game: Game,
+                width: number, height: number) {
+        this._width = width;
+        this._height = height;
     }
 
     public init() {}
+
+    public resize(w: number, h: number) {
+        this._width = w;
+        this._height = h;
+
+        this.layout();
+    }
 
     protected dispose() {}
 

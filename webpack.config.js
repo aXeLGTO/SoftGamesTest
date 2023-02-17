@@ -27,7 +27,8 @@ module.exports = (env, argv) => {
                 },
                 progress: true,
             },
-            port: 1234, host: '0.0.0.0'
+            port: 1234, host: '0.0.0.0',
+            hot: true
         },
 
         // Web games are bigger than pages, disable the warnings that our game is too big.
@@ -79,6 +80,10 @@ module.exports = (env, argv) => {
                 hash: true,
                 minify: false
             })
-        ]
+        ],
+        watchOptions: {
+            poll: true,
+            ignored: /node_modules/
+        }
     });
 }
